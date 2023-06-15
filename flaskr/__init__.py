@@ -1,6 +1,7 @@
 import os
 
-from flask import Flask
+from flask import Flask, redirect
+from .auth import login_required
 
 
 def create_app(test_config = None):
@@ -16,6 +17,7 @@ def create_app(test_config = None):
     from . import blog
     app.register_blueprint(blog.bp)
     app.add_url_rule('/', endpoint='index')
+
 
     app.config.from_mapping(
         SECRET_KEY = 'dev',
@@ -34,7 +36,7 @@ def create_app(test_config = None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
+    
     # a simple page that says hello 
     @app.route('/hello')
     def hello():
